@@ -1,0 +1,47 @@
+.col-form-label1{
+	font-family: monospace,sans-serif; 
+	font-size:1.2rem; 
+	color:black;
+	padding:7px 0px 0px 10px ; 
+	text-align: left;
+	}
+	h4{
+	font-size:1.5rem; 
+	color:black;
+ 	}
+ 	label
+ 	{
+ 		color: black;
+ 	}
+ 	.form-control-file, .form-control-range {
+    color: black;
+    border: 2px solid #5092a1;
+    margin-left:0.5rem;
+    width:90%;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+	.col-form-label1{ 
+	font-size:1.0rem; 
+	color:black;
+	padding:7px 0px 0px 10px ; 
+	text-align: left;
+	}
+	h4{
+	font-size:1.0rem; 
+	color:black;
+ 	}
+}
+
+@media(max-width: 481px)
+{
+.col-form-label1{ 
+	font-size:1.0rem; 
+	color:black;
+	padding:7px 0px 0px 10px ; 
+	text-align: left;
+	}
+	h4{
+	font-size:1.0rem; 
+	color:black;
+ 	}	
+}

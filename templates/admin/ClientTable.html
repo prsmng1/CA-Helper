@@ -1,0 +1,204 @@
+<!--php
+session_start();
+include "../database/connection.php";
+//admin();
+//CheckAccess(0);
+
+if(!isset($_SESSION['type'])){
+  header("location:".$siteurl."admin/AdminLogin.php");
+}
+if(isset($_GET['id']))
+{
+	$sql="SELECT email from formcli where id='".$_GET['id']."'";
+	$res=$con->query($sql);
+	$row=$res->fetch_array();
+	$temp=$row['email'];
+
+	$sql1="DELETE from formcli where id='".$_GET['id']."'";
+	$temp2=$con->query($sql1);
+	if($temp2==true)
+	{
+		$sql2="DELETE from chart_acct where cid='".$_GET['id']."'";
+		$con->query($sql2);
+		$sql3="DELETE from logindb where email='".$temp."'";
+		$con->query($sql3);
+	}
+
+		echo "delete record";
+}
+
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			
+		    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+		
+		<!--============================owncss========================-->
+		<link rel="stylesheet" href="static/css/Adminstyle.css">
+		<link rel="stylesheet" href="static/css/request.css">
+		<!--========================================================================-->
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+			<!-- data tale-->
+			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+		<!--<style >
+			#edit{
+				font-size:20px;
+				color:#104176; 
+				border:2px solid #104176;
+				padding: 3px;
+				
+			}
+			#delete{
+			font-size:20px; 
+			color: #ce0014!important;
+			border:2px solid;#ce0014!important;
+			padding: 3px;
+				
+			}
+		</style>-->
+</head>
+
+<body  style="background-color:#eff4f936!important;">
+	<div class="container-fluid" >
+		<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO CLIENT 
+			</p>
+		</div>	
+			<!--content-->
+			<div class="row">
+				<!-- left area-->
+				<div class="col-md-2 col-lg-2 col-xs-12 col-icon ">
+					{% include 'common/left.html'%}
+			</div>
+				<!--- middle arae-->
+				<div class="col-md-7 col-lg-7 col-xs-12 col-7" style="overflow-x: hidden;">
+				
+					<a href="{{url_for('form_cli')}}" class="btn d-flex justify-content-center" id="Addclient"> ADD CLIENT</a><br>
+					{%- for message in get_flashed_messages() %}
+					<div class="alert alert-success alert-dismissible">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+					<div class="table-responsive">
+						<table class='table-sm table-bordered' id='table_id'>
+						<thead>
+							<tr>
+								<th>Firstname</th>
+								<th> Lastname </th>
+								<th> Gender</th>
+								<th> Company</th>
+								<th>GST Number</th>
+								<th>Email</th>
+								<th>Mobile Number</th>
+								<th>Accountants</th>
+								<th> Action</th>
+								<th> files</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in record %}
+							<tr>
+								<td>{{row.fname}}</td>
+								<td>{{row.lname}}</td>
+								<td>{{row.gender}}</td>
+
+								<td>{{row.company}}</td>
+								<td>{{row.gst}}</td>
+						        <td>{{row.email}}</td>
+						        <td>{{row.phone}}</td>
+
+								<td>
+								{% for rows in accountant %}
+									  	{% if rows.cid == row.id|string %}
+											{% for name in acct_name%}
+												{% if name.id|string == rows.aid%}
+													{{name.fname+name.lname }}
+												{%endif%}
+											{%endfor%}
+										{%endif%}
+								{% endfor%}
+								</td>
+
+						       
+						       <td>
+								    <a href ="view_cli/{{row.id}}"><i class='fa fa-edit fa-10x' id='edit'></i></a>
+
+						        <a href ='delete_cli/{{row.id}}' class="del1" data-recordid="{{row.id}}" data-toggle="modal" data-target="#myModal2"><i class='fa fa-trash fa-10x' id='delete'></i></a>
+						        </td>
+						    
+						        <td>
+						        <a href ="{{url_for('year_page')}}?id={{row.user_id}}"><i class='fa fa-file-upload ml-2' id='edit1'></i></a>
+						         </td>
+
+
+
+						  </tr>
+
+
+						{%endfor%}
+						   </tbody>
+						  </table>
+						    	<!-- //////////////////////// delete Modal popup /////////////////////////////////////-->
+				  <div class="modal fade" id="myModal2" role="dialog">
+					<div class="modal-dialog">
+
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <h6 class="modal-title">Confirmation Delete</h6>
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+						  <h6>ARE YOU SURE TO WANT DELETE THIS RECORD??</h6>
+						</div>
+						<div class="modal-footer">
+						  <a href="" class="btn btn-primary float-left" id="yes" >Yes</a>
+						  <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Cancel</button>
+						 </div>
+					  </div>
+
+					</div>
+				</div>
+					</div><!--Tableresponsive close-->
+				</div>
+		
+				<!-- notifications-->
+				<div class="col-xs-12 col-3 col-request" style="overflow:scroll;">
+					<div class="h-50 d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark  text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+						{%include 'common/requestdisplay.html'%}
+				</div>
+			</div>
+			</div><!-- row close-->
+	</div><!--container close-->
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+			<script>
+			var a1;
+				$(document).ready(function () {
+	    			$('#table_id').DataTable();
+
+	    			$(".del1").click(function(){
+            		a1= $(this).attr("href");
+            		$("#yes").attr("href",a1)
+       				 });
+				} );
+			</script>
+
+				
+</body>
+</html>

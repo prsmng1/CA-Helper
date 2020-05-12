@@ -1,0 +1,60 @@
+.col-2{
+		background-color: #385866!important;
+		padding: 15px;
+		color: whitesmoke;
+	}
+.col-3{
+		background-color: #385866!important;
+		padding: 15px;
+		color: whitesmoke;
+	}
+	a{
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+    background-color: transparent;
+	}
+	a:hover {
+    color: #0056b3!important;
+	}
+	.col-2 a{
+		font-size: 18px;
+    	color: #f0f3f6;
+    	text-decoration: none;
+    	align-content: center;
+    	margin: auto;
+    	padding: 5px;
+		}
+		.col-2 a i{
+			font-size: 45px;
+		    color: sandybrown;
+		    text-align: center;
+		    padding: 11px;
+		    width: 100%;
+		}
+		p{
+			background-color:#eee1a3;
+		    font-size: 50px;
+		    text-align: center;
+		    color: sandybrown;
+		    width: 100%;
+		    margin-bottom:0.5rem!important;
+		    font-family: monospace;
+		}
+		
+/* form request*/
+.col-form-label 
+{
+    font-size: 25px;
+    padding: 0;
+    font-family: monospace,sans-serif
+}
+label{
+    font-size: 22px;
+    padding: 0;
+    font-family: monospace,sans-serif
+    color:black;
+}
+.form-control{
+    border: 2px solid #5092a1;
+ }

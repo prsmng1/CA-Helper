@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+	<title>
+	</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="\static\css\fontawesome\css\all.min.css">
+
+	<!--============================owncss========================-->
+	<link rel="stylesheet" href="/static/css/Adminstyle.css">
+	<link rel="stylesheet" href="/static/css/request.css">
+	<!--========================================================================-->
+	<!--========================================================================-->
+		<link rel="stylesheet" href="static/js/distt/bootstrap-tagsinput.css">
+
+		<!-- data tale-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+		<style>
+
+			.bootstrap-tagsinput .tag{
+				background-color:#456bb3 ;
+			}
+			i {color:#456bb3; font-size:30px;}
+		</style>
+</head>
+<body>
+<div class="container-fluid" >
+	<!--heading-->
+	<div class="row">
+		<p>
+			WELCOME TO RECORDS DASHBOARD
+		</p>
+	</div>
+	<!--content-->
+	<div class="row">
+		<!--left-->
+		<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+			{% include "common/left.html"%}
+		</div>
+		<!--middle-->
+		<div class="col-5 border-right border-dark text-center bg-light p-3 ">
+			<p class="dis">DOWNLOAD FILES</p>
+			{%for row in file_fetch%}
+			<table>
+				<tr><td>
+					<a href='static/client_record/{{row.file}}'><i class='fas fa-file-download' ></i></a></td>
+					<td>{{row.file}}</td>
+				</tr>
+			</table>
+			{%endfor%}
+
+		</div>
+
+		<div class="col-5 text-center bg-light p-3">
+			<p class="dis">UPLOAD FILES</p>
+			<form name="myForm" action="{{url_for('insert_file')}}" method="POST" id="form1" enctype="multipart/form-data">
+				<div class="form-inline">
+					<input type="file" name="file[]" multiple >
+				</div>
+				<div class="form-inline">
+					<input type="text" id="tag1" class="form-control"name="tag1" values=" " data-role="tagsinput">
+				</div>
+				<div class="form-inline">
+					<input type="submit" class="btn-info" class="form-control" name="submit" id="submit" value="UPLOAD">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		 <script src="static/js/distt/bootstrap-tagsinput.js"></script>
+		 <script src="static/js/print/jquery.printPage.js"></script>

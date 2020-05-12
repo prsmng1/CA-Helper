@@ -1,0 +1,130 @@
+<!--php
+	session_start();
+	include "../database/connection.php";
+	if(!isset($_SESSION['type']))
+	{
+		 header("location:".$siteurl."account/AccountantLogin.php");
+	}
+	$sql="SELECT user_id from formacc where email='".$_SESSION['email']."'";
+	$res=$con->query($sql);
+	$row=$res->fetch_array();
+	$_SESSION['id']=$row['user_id'];
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+<!--=========================own css=============================-->
+			<link rel="stylesheet" href="/static/css/Adminstyle.css">
+			<link rel="stylesheet" href="/static/css/request.css">
+<!--===============================================================-->	
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<!-- data tale-->
+			<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+		<!--<style >
+			#edit{
+				font-size:20px;
+				color:#104176;
+				border:2px solid #104176;
+				padding: 3px;
+
+			}
+			#delete{
+			font-size:20px;
+			color: #ce0014!important;
+			border:2px solid;#ce0014!important;
+			padding: 3px;
+
+			}
+		</style>-->
+		<!-- data tale-->
+
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+</head>
+<body>
+	<div class="container-fluid" >
+		<div class="row">
+			<p>
+				WELCOME TO ACCOUNTANT DASHBOARD
+			</p>
+	</div>
+	
+		<div class="row">
+			<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+				{% include "common/left.html" %}
+		</div>
+			<!---middle-->
+			<div  class="col-md-7 col-lg-7 col-xs-12 col-7">
+				
+	  		    <div class="table-responsive mt-5">
+					<table class='table-sm table-bordered' id='table_id'>
+						<thead>
+						<tr>
+						        <th>Firstname</th>
+						        <th>Lastname</th>
+						        <th> Gender</th>
+						        <th> Company</th>
+						        <th>GST Number</th>
+						        <th>Email</th>
+						        <th>Mobile Number</th>
+						        <!--<th>Accountant</th>
+						        <th> Action</th>-->
+						        <th> files</th>
+						      </tr>
+						    </thead>
+							<tbody>
+								{% for ac_id in ac_id%}
+									{%for row in client_details%}
+										{%if row.id|string==ac_id.cid%}
+										<tr>
+											<td>{{row.fname}}</td>
+											<td>{{row.lname}}</td>
+											<td>{{row.gender}}</td>
+											 <td>{{row.company}}</td>
+											 <td>{{row.gst}}</td>
+											<td>{{row.email}}</td>
+											<td>{{row.phone}}</td>
+											<td>
+											<a href ="{{url_for('year_page')}}?id={{row.user_id}}"><i class='fa fa-file-upload' id='edit'></i></a>
+											 </td>
+										  </tr>
+										{%endif%}
+									{%endfor%}
+								{%endfor%}
+
+						   </tbody>
+						  </table>
+
+						    
+						    
+					</div><!--Tableresponsive close-->
+			</div><!--middle close-->
+			<!-- right -->
+			<div class="col-xs-12 col-3 col-request" style="overflow:scroll;">
+					<div class="h-50 d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark  text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+					{% include 'common/requestdisplay.html' %}
+				</div>
+			</div>
+		</div><!-- content close-->
+	</div><!--container close-->
+	
+	
+	
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#table_id').DataTable();
+		} );
+	</script>
+</body>
+</html>

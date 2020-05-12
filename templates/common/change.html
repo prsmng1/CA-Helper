@@ -1,0 +1,216 @@
+<!--php
+session_start();
+$email=$_SESSION['email'];	
+$type=$_SESSION['type'];
+	$_SESSION['cerror']="";
+	$_SESSION['csuccess']="";	
+include "../database/connection.php";
+if(!isset($_SESSION['type'])){
+ header("location:ClientLogin.php");
+}
+if(isset($_POST['submit']))
+{
+	
+	if($type=='client')
+	{
+		$sql="select * from logindb where email='".$_SESSION['email']."'";
+		$res=$con->query($sql);
+		while($row=$res->fetch_array())
+		{
+			
+			if(($_POST['pass'])==$row['password'] && $_POST['cpass']==$_POST['npass'])
+			{
+				$sql1="UPDATE logindb set password='".$_POST['npass']."' where id='".$row['id']."' ";
+				$con->query($sql1);
+				//print_r($sql1);
+				//exit;
+				$_SESSION['csuccess']="Password change";
+			}
+			else
+			{
+				$_SESSION['cerror']="Password Incorrect and can't change";
+			}
+		}
+	}
+
+	if($type=='accountant')
+	{
+
+		$sql="select * from logindb where email='".$_SESSION['email']."'";
+		$res=$con->query($sql);
+		while($row=$res->fetch_array())
+		{
+			if($_POST['pass']==$row['password'] && $_POST['cpass']==$_POST['npass'])
+			{
+				$sql1="UPDATE logindb set password='".$_POST['npass']."' where id='".$row['id']."' ";
+				$con->query($sql1);
+				$_SESSION['csuccess']="Password change";
+			}
+			else
+			{
+				$_SESSION['cerror']="Password Incorrect and can't change";
+			}
+		}
+	}
+
+}
+if((!empty($_SESSION['csuccess']) || !empty($_SESSION['cerror'])) && $type=='client')
+{
+	header("location:ClientDashboard.php");
+}
+//else
+if((!empty($_SESSION['csuccess']) || !empty($_SESSION['cerror'])) && $type=='accountant')
+{
+	header("location:AccountantDashboard.php");
+}
+-->
+<!DOCTYPE html>
+<html>
+<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	  
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!--============================own css============================-->
+			<link rel="stylesheet" href="/static/css/Adminstyle.css">
+			<link rel="stylesheet" href="/static/css/request.css">
+<!--===============================================================-->
+		
+	
+    <style>
+    	
+    	.change_password
+    	{
+    		padding: 100px;  		
+    		font-size: 20px;
+    		font-family: sans-serif;
+    	}
+		 .change_password label 
+		{
+			justify-content: left!important;
+		}  
+		.change_password span p{
+			color:red;
+			font-size: 20px;
+    		padding-bottom: 0;
+    		margin-bottom: 0;
+			margin-left: 50%;
+    		text-align: left;
+		} 
+	 </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO DASHBOARD
+			</p>
+		</div>
+			<!--content-->
+			<div class="row">
+
+				<!--left-->
+				<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+					{% include "common/left.html"%}
+				</div>
+			
+				<!--middle-->
+		<div  class="col-md-7 col-lg-7 col-xs-12 col-7 change_password">
+
+				
+			<form name="myForm" id="update" method="POST" enctype="multipart/form-data" action="{{url_for('update_pass')}}">
+				<!--Email
+				<div class="form-inline">
+				<label class="col-form-label col-6" for="email">E-Mail</label>
+				<input type="text" class="form-control col-md-6" name="email" id="email" value="<?php //echo $_SESSION['email']; ?>" disabled>
+				</div><br>-->
+				<!--current password-->
+				<div class="form-inline ">
+				<label class="col-form-label col-md-6" for="pass">Current Password:</label>
+				<input type="password" class="form-control col-md-6"  name="pass" id="pass" >
+				</div>
+				<span><p id="cuerror" class="w-50"> </p></span><br>
+				<!-- new password-->
+				<div class="form-inline ">
+				<label class="col-form-label col-md-6" for="npass">New Password:</label>
+				<input type="password" class="form-control col-md-6" name="npass" id="npass" >
+				</div>
+				<span><p id="neerror" class="w-50"> </p></span><br>
+				<!--confirm password-->
+				<div class="form-inline">
+				<label class="col-form-label col-md-6" for="cpass">Confirm Password:</label>
+				<input type="password" class="form-control col-md-6" name="cpass" id="cpass">
+				</div>
+				<span><p id="coerror" class="w-50"> </p></span><br>
+				<!--button-->
+				<div class="form-inline ">
+
+
+				<input type="submit" class="form-control col-sm-5 mx-auto bg-dark text-light" value="Update" name="submit" id="submit1">
+
+				  </div>
+			</form>
+
+		</div>
+
+				<!--right-->
+				<div class="col-xs-12 col-3 col-request " style="overflow:auto;">
+					<div class="h-50 d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark  text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+					{% include 'common/requestdisplay.html' %}
+				</div>
+			</div>
+	</div>
+	</div>
+
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('#submit1').click(function(){
+			var cu=$('#pass').val();
+			var ne=$('#npass').val();
+			var conn=$('#cpass').val();
+			var pass= new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+			var bol=0;
+			$('#cuerror').text("");
+			$('#coerror').text("");
+			$('#neerror').text("");
+			if(cu ==""){
+				$('#cuerror').text("This field required");
+			}
+			
+			if(ne ==""){
+				$('#neerror').text("This field required");
+			return false;
+			}
+			if(!pass.test(ne))
+			{
+				$('#neerror').text("Less than 8 characters");
+				return false;
+			}
+			if(conn=="")
+			{
+				$('#coerror').text("This field required");
+			return false;
+			}
+			if(conn !=ne )
+			{
+				$('#coerror').text("Password not matched");
+				return false;
+			}
+			
+			
+		});
+	});
+</script>

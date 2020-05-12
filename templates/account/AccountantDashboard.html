@@ -1,0 +1,91 @@
+<!--<?php
+	session_start();
+	include "../database/connection.php";
+	if(!isset($_SESSION['type']))
+	{
+		 header("location:".$siteurl."account/AccountantLogin.php");
+	}
+	include "../common/error_success.php";
+?>
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  	<!--============================owncss============================-->
+	<link rel="stylesheet" href="static/css/Adminstyle.css">
+	<link rel="stylesheet" href="static/css/request.css">
+	<!--===============================================================-->	
+	</head>
+<body>
+	
+	<div class="container-fluid" >
+		<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO ACCOUNTANT DASHBOARD
+			</p>
+		</div>
+		<!--content-->
+		<div class="row">
+			<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+				{% include 'common/left.html' %}
+			</div>
+
+			<!--middle-->
+			<div  class="col-md-7 col-lg-7 col-xs-12 col-7">
+				{%- for message in get_flashed_messages() %}
+					<div class="alert alert-success alert-dismissible">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+				<!--php
+					
+					err(); 
+					err1();
+					unset($_SESSION["error"]);
+					unset($_SESSION["success"]);
+					-->
+				<div class="row">
+					<div class="col-md-5">
+						<i class='fa fa-users '></i>
+						<div class='number'>
+						{{total_client}}
+						</div>
+						<h1>
+						Total Clients
+						</h1>
+					</div>
+					<div class="col-md-5  ">
+						<i class='fa fa-exchange-alt'></i>
+						<div class='number'>
+						{{request_total}}
+						</div>
+						
+						<h1>Total Requests</h1>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-xs-12 col-3 col-request" style="overflow:auto;">
+					<div class="h-50 d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark  text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+					{% include 'common/requestdisplay.html'%}
+				</div>
+			</div>
+		</div><!--content close-->
+	</div><!--container close-->
+
+</body>
+</html>

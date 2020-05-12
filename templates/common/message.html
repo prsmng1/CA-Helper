@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+		
+		<!--============================owncss========================-->
+		<link rel="stylesheet" href="static/css/Adminstyle.css">
+		<link rel="stylesheet" href="static/css/request.css">
+		<!--========================================================================-->
+		
+	
+		<!-- data tale-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+</head>
+<body>
+	<div class="container-fluid" >
+		<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO SEE MESSAGES
+			</p>
+		</div>
+		<!--- content -->
+		<div class="row" >
+			<!--left bar-->
+			<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+				{% include "common/left.html" %}
+			</div>
+				<!--middle area-->
+			<div class="col-md-10 col-lg-10 col-xs-12 col-10" style="overflow-x: hidden;">
+				<div class='table-responsive'>
+					<table class='table-sm table-bordered' id='table_id'>
+						<thead>
+							<tr>
+							<th>Name</th>
+							<th>Subject</th>
+							<th>Message</th>
+							<th>Date</th>
+							<th>Files</th>
+							</tr>
+							</thead>
+						<tbody>
+							{%if session['type']=='admin'%}
+								{% for row in request_admin %}
+								<tr>
+									<td>
+										{%for name in login_detail%}
+										{%if row.sender == name.id|string %}
+											{{name.fname+" "+name.lname}}
+										{%endif%}
+										{%endfor%}
+									</td>
+									<td>{{row.subject}}</td>
+									<td>{{row.message}}</td>
+									<td>{{row.datee}}</td>
+									<td><a href='static/request/{{row.files}}'><img src='static/images/pdf.png' width='50'></a>{{row.files}}</td>
+								</tr>
+								{%endfor%}
+							{%endif%}
+
+							{%if session['type']=='client'%}
+								{% for row in request_client %}
+								<tr>
+									{%for name in login_detail%}
+										{%if row.sender == name.id|string %}
+									<td>{{name.fname+" "+name.lname}}</td>
+										{%endif%}
+									{%endfor%}
+									<td>{{row.subject}}</td>
+									<td>{{row.message}}</td>
+									<td>{{row.datee}}</td>
+									<td><a href='static/request/{{row.files}}'><img src='static/images/pdf.png' width='50'></a>{{row.files}}</td>
+								</tr>
+								{%endfor%}
+							{%endif%}
+
+						{%if session['type']=='accountant'%}
+								{% for row in request_acct %}
+								<tr>
+									<td>{%for name in login_detail%}
+										{%if row.sender == name.id|string %}
+											{{name.fname+" "+name.lname}}
+										{%endif%}
+									{%endfor%}</td>
+									<td>{{row.subject}}</td>
+									<td>{{row.message}}</td>
+									<td>{{row.datee}}</td>
+									<td><a href='static/request/{{row.files}}'><img src='static/images/pdf.png' width='50'></a>{{row.files}}</td>
+								</tr>
+								{%endfor%}
+							{%endif%}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+			<script>
+				$(document).ready(function () {
+	    			$('#table_id').DataTable();
+				} );
+	</script>

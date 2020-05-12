@@ -1,0 +1,172 @@
+<style>
+	.dis2{
+	 font-size: 17px;
+    float: left;
+    color: black; 
+    font-family: monospace;
+    margin-bottom: 0.5rem;
+  
+    position: relative;
+  	animation: mymove 2s 1;
+  	animation-timing-function: ease;
+	}
+	@keyframes mymove {
+  		from {top:400px;}
+  		to {top: 0px;}
+	}
+	.card{
+		margin-left: inherit;
+	}
+	.fas:hover{
+		cursor: pointer;
+	}
+</style>
+
+{% if session['type']=='admin' %}
+	{% if client_request ==0 %}
+		<div class='dis2'>
+			<div class='card'>
+				<div class='card-header'>
+					<span class="float-right clickable close-icon" data-effect="fadeOut" ><i class="fa fa-times-circle"></i></span>
+					 You have no current notifications.
+					</div>
+
+			</div>
+		</div>
+	{%else%}
+		{%for admin_request_display in admin_request_display%}
+						<div class='dis2'>
+							<div class='card'>
+								<div class='card-header'>
+									{%for name in login_detail%}
+										{%if admin_request_display.sender == name.id|string %}
+											{{name.fname+" "+name.lname}}
+										{%endif%}
+									{%endfor%}
+									<span class="float-right clickable close-icon" data-effect="fadeOut" data-id="{{admin_request_display.id}}"><i class="fa fa-times-circle"></i></span>
+								</div>
+
+								<div class='card-body'>
+									{{ admin_request_display.subject}} <br>
+									{{admin_request_display.message}}<br>
+									{{admin_request_display.datee}}<br>
+								</div>
+
+								<div class='card-footer'>
+									<a href='static/request/{{admin_request_display.files}}'><img src='static/images/pdf.png' width='50'></a>{{admin_request_display.files}}<br>
+								</div>
+							</div>
+						</div>
+
+				{%endfor%}
+
+
+	{%endif%}
+{%endif%}
+
+{% if session['type']=='client' %}
+	{% if client_request ==0 %}
+		<div class='dis2'>
+			<div class='card'>
+				<div class='card-header'>
+					<span class="float-right clickable close-icon" data-effect="fadeOut" ><i class="fa fa-times-circle"></i></span>
+					 You have no current notifications.
+					</div>
+
+			</div>
+		</div>
+	{%else%}
+		{%for client_request_display in client_request_display%}
+						<div class='dis2'>
+							<div class='card'>
+								<div class='card-header'>
+									{%for name in login_detail%}
+										{%if client_request_display.sender == name.id|string %}
+											{{name.fname+" "+name.lname}}
+										{%endif%}
+									{%endfor%}
+									<span class="float-right clickable close-icon" data-effect="fadeOut" data-id="{{client_request_display.id}}"><i class="fa fa-times-circle"></i></span>
+								</div>
+
+								<div class='card-body'>
+									{{ client_request_display.subject}} <br>
+									{{client_request_display.message}}<br>
+									{{client_request_display.datee}}<br>
+								</div>
+
+								<div class='card-footer'>
+									<a href='static/request/{{client_request_display.files}}'><img src='static/images/pdf.png' width='50'></a>{{client_request_display.files}}<br>
+								</div>
+							</div>
+						</div>
+
+				{%endfor%}
+
+
+	{%endif%}
+{%endif%}
+{% if session['type']=='accountant' %}
+	{% if request_total ==0 %}
+		<div class='dis2'>
+			<div class='card'>
+				<div class='card-header'>
+					<span class="float-right clickable close-icon" data-effect="fadeOut" ><i class="fa fa-times-circle"></i></span>
+					 You have no current notifications.
+					</div>
+
+			</div>
+		</div>
+	{%else%}
+		{%for acc_request_display in acc_request_display %}
+						<div class='dis2'>
+							<div class='card'>
+								<div class='card-header'>
+									{%for name in login_detail%}
+										{%if acc_request_display.sender == name.id|string %}
+											{{name.fname+" "+name.lname}}
+										{%endif%}
+									{%endfor%}
+									<span class="float-right clickable close-icon" data-effect="fadeOut" data-id="{{acc_request_display.id}}"><i class="fa fa-times-circle"></i></span>
+								</div>
+
+								<div class='card-body'>
+									{{ acc_request_display.subject}} <br>
+									{{acc_request_display.message}}<br>
+									{{acc_request_display.datee}}<br>
+								</div>
+
+								<div class='card-footer'>
+									<a href='static/request/{{acc_request_display.files}}'><img src='static/images/pdf.png' width='50'></a>{{acc_request_display.files}}<br>
+								</div>
+							</div>
+						</div>
+				{%endfor%}
+	{%endif%}
+{%endif%}
+
+<script>
+	flag=0;
+	$('.close-icon').on('click',function() {
+
+	  var data={
+					id:$(this).attr('data-id')				};
+			console.log(data)
+		var r=confirm("are you sure you want to delete");
+				if(r==true)
+				{
+				  $(this).closest('.card').fadeOut()
+				  $.ajax({
+				url:'{{url_for('request_status')}}',
+				type:'POST',
+				data:data,
+				success:function(result,status,xhr){
+							console.log(data)
+					},
+				error:function(xhr,status,error){
+					alert("not");
+				}
+			  });
+	}
+
+})
+	</script>

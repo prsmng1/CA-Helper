@@ -1,0 +1,180 @@
+.col-year{
+background-color: #eff4f947!important;
+}
+.col-year .fa{
+font-size: 180px;
+padding:10px;
+}
+.col-year a{
+text-decoration: none;
+text-align:center;
+color: #61919f;
+}
+a:hover {
+color: #e7eff6!important;}
+.col-year a i:hover{
+color: #6694a5b8;
+}
+
+.col-year a p
+{
+background-color: #f0f8ff05;;
+font-size: 25px;
+margin-top: 0px;
+}
+.dis
+{
+color:#0d6396;
+font-size:45px;
+}
+.back1{
+background-color:#61919f;
+color: #f0f8ff;
+font-size:22px;
+width:160px;
+height:40px;
+}
+.form-inline
+{
+margin-top: 0.5rem;
+}
+
+#search,#submit{
+border:2px solid #61919f;
+font-size:20px;
+}
+
+@media(min-width: 1024px) and (max-width:1280px)
+{
+	.col-year .fa
+	{
+	font-size: 115px;
+	padding: 7px 20px 0px 20px;
+	}
+	.col-year a p
+	{
+	font-size: 20px;
+	}
+	.dis
+	{
+	color:#0d6396;
+	font-size:35px!important;
+	}
+	.back1{
+	font-size:25px;
+	width:150px;
+	}
+	#search,#submit{
+	border:1px solid #61919f;
+	font-size:15px;
+	}
+}
+
+@media(max-width: 1023px) and (min-width:768px)
+{
+	.col-year .fa
+	{
+	font-size: 90px;
+	padding: 0.7rem;
+	}
+
+
+	.col-year a p{
+	font-size: 15px;
+	}
+	.back1{
+	font-size:15px;
+	width:130px;
+	height:30px;
+	}
+	.dis
+	{
+	color:#0d6396;
+	font-size:30px;
+	}
+	#search,#submit{
+	border:1px solid #61919f;
+	font-size:15px;
+	}
+}
+@media(max-width: 450px) 
+{
+	.col-10,.col-5
+	{
+	max-width: 100%!important;
+	}
+	.col-year .fa
+	{
+	font-size: 80px;
+	padding: 0.7rem;
+	}
+	.col-year a p{
+	font-size: 15px;
+	}
+	.back1{
+	margin-top: 0.5rem;
+	font-size:15px;
+	width:100px;
+	height:30px;
+	}
+	.dis
+	{
+	color:#0d6396;
+	font-size:30px;
+	}
+	#search,#submit{
+	float: left;
+	border:1px solid #61919f;
+	font-size:15px;
+	}
+	.border-right {
+	border-right: 0px!important;
+	}
+}
+@media(max-width: 375px)
+{
+	.col-10
+	{
+	max-width: 100%!important;
+	}
+	.col-year .fa
+	{
+	font-size: 130px;
+	padding: 0.5rem;
+	}
+	.col-year a p{
+	font-size: 20px;
+	}
+	.back1{
+	margin-left: 1.0rem;
+	margin-top: 0.5rem;
+	font-size:15px;
+	width:80px;
+	height:30px;
+	}
+	.dis
+	{
+	color:#0d6396;
+	font-size:30px;
+	}
+	#search,#submit{
+	margin-left: 0.5rem;
+	font-size: 20px;
+	margin-top: 0.5rem;
+	}
+}
+@media(max-width: 320px){
+	.col-10
+	{
+	max-width: 100%!important;
+	}
+	.col-year .fa
+	{
+	font-size: 100px;
+	padding: 0.5rem;
+	}
+	#search,#submit{
+	font-size: 20px;
+	}
+
+}

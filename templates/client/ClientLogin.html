@@ -1,0 +1,136 @@
+<!--<?php
+session_start();
+	if(isset($_SESSION['type']))
+	{
+		if($_SESSION['type']=="admin"){
+			header('location:AdminDashboard.php');
+		}
+		if($_SESSION['type']=="client"){
+			header('location:ClientDashboard.php');
+		}
+		if($_SESSION['type']=="accountant"){
+			header("location:Accountant.Dashboard.php");
+		}
+	}
+    
+?>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+			<!--===============================================================================================-->	
+			<link rel="icon" type="image/png" href="/static/images/icons/favicon.ico"/>
+		<!--===============================================================================================-->
+			<link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+		<!--===============================================================================================-->
+		<link rel="stylesheet" href="\static\css\fontawesome\css\all.min.css">
+		<!--===============================================================================================-->
+			<link rel="stylesheet" type="text/css" href="/static/vendor/animate/animate.css">
+		<!--===============================================================================================-->	
+			<link rel="stylesheet" type="text/css" href="/static/vendor/css-hamburgers/hamburgers.min.css">
+		<!--===============================================================================================-->
+			<link rel="stylesheet" type="text/css" href="/static/vendor/select2/select2.min.css">
+		<!--===============================================================================================-->
+			<link rel="stylesheet" type="text/css" href="/static/css/util.css">
+			<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+		<!--===============================================================================================-->
+<style>
+	 p ,.error{
+		color: red;
+    font-family: sans-serif;
+    font-size: 15px;
+    text-align: center;
+    margin-top: -5px;
+}
+	
+	</style>
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="/static/images/img-01.png" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form" action="/login" method="post">
+					<div>
+					{%- for message in get_flashed_messages(category_filter=['success']) %}
+					<div class="alert alert-success alert-dismissible ">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+				</div>
+					<span class="login100-form-title">
+						Client Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">					
+						<input class="input100" type="text" name="email" placeholder="Email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+					<p ></p>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						
+						<input class="input100" type="password" name="pass" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					<p></p>
+					<span class="error">
+						{%- for message in get_flashed_messages(category_filter=['error']) %}
+					<div class="alert alert-danger alert-dismissible ">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+					</span>
+					
+					   <input type="hidden" name="acc_type" value='client'>
+							<div class="container-login100-form-btn">
+						<input type="submit" class="login100-form-btn" id="submit" name="submit" value="login">
+					</div>
+
+					<div class="text-center p-t-12">
+						<span class="txt1">
+							Forgot
+						</span>
+						<a class="txt2" href="{{url_for('forget')}}">
+							Password?
+						</a>
+					</div>
+
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+<!--===============================================================================================-->	
+	<script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+<!--===============================================================================================-->
+	<script src="/static/vendor/bootstrap/js/popper.js"></script>
+	<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+	<script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="/static/js/main.js"></script>
+</body>
+</html>

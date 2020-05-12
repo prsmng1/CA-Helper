@@ -1,0 +1,237 @@
+<div class="container">
+	<div class="col-xl-12 col-lg-10 col-md-10">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">Request Form</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<!-- Modal body -->
+			<div class="modal-body">
+				
+				<form  method="POST"  id="myForm" action="{{url_for('insert_req')}}" enctype="multipart/form-data">
+					<!-- from-->
+					<div class="form-group row">
+						<label  for="from" class="col-sm-2 col-form-label1">From:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="from" placeholder="name" name="from" value="{{session['email']}}" disabled>
+						</div>
+					</div>
+					<!--To-->
+					<div class="form-group row">
+						<label  for="to" class="col-sm-2 col-form-label1">To:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="to"  name="to" >
+						</div>
+						
+
+				       <!----------ADMMIN------------->
+					{%if session['type']=='admin'%}
+
+						<div class="col-sm-6 col-xs-12 col-lg-6 col-12">
+							<label  for="sel2" class="col-sm-2 col-form-label1">Accountant:</label>
+								<select multiple="multiple" class="form-control"  id="sel2" name="sel2[]">
+									{% for row in login_detail %}
+									{{row.id}}
+										{% if row.type=='accountant'%}
+												{{row.fname+row.lname}}
+										<option value='{{row.id}}'>{{row.fname+row.lname}}</option>
+										{%endif%}
+									{%endfor%}
+								</select>
+						</div>
+						<div class="col-sm-6 col-xs-12 col-lg-6 col-12">
+								<label  for="sel" class="col-sm-2 col-form-label1">CLIENT:</label>
+							<select multiple="multiple" class="form-control"  id="sel" name="sel[]">
+								 {% for row in login_detail %}
+								{{row.id}}
+									{% if row.type=='client'%}
+											{{row.fname+row.lname}}
+									<option value='{{row.id}}'>{{row.fname+row.lname}}</option>
+									{%endif%}
+								{%endfor%}
+							</select>
+						</div>
+					{%endif%}
+			<!----------------------client----------------------------->
+				{% if session['type']=='client'%}
+					<div class="col-sm-6 col-xs-12 col-lg-6 col-12 offset-sm-2 ">
+							<label  for="sel2" class="col-sm-2 col-form-label1">Accountant:</label>
+						<select multiple="multiple" class="form-control"  id="sel2" name="sel2[]">
+							 {%for c in char_ac%}
+									{%if user.id|string==c.cid%}
+											{%for name in acc%}
+												{%if c.aid==name.id|string%}
+													<option value='{{c.aid}}'>{{name.fname+" "+name.lname}}</option>
+												{%endif%}
+											{%endfor%}
+									{%endif%}
+							{%endfor%}
+
+
+				            </select>
+					</div>
+						{%endif%}
+			<!-------------------------Accountant------------------->
+
+				{% if session['type']=='accountant'%}
+					<div class="col-sm-6 col-xs-12 col-lg-6 col-12 offset-sm-2">
+							<label  for="sel2" class="col-sm-2 col-form-label1">CLIENT:</label>
+						<select multiple="multiple" class="form-control"  id="sel2" name="sel2[]">
+			                {%for c in char_ac%}
+									{%if user.id|string==c.aid%}
+										{% for name in cl%}
+											{%if c.cid==name.id|string%}
+												<option value='{{c.cid}}'>{{name.fname+" "+name.lname}}</option>
+											{%endif%}
+										{%endfor%}
+									{%endif%}
+							{%endfor%}
+
+
+				             
+				            </select>
+					</div>
+						{%endif%}
+				
+			</div>
+					<div class="form-group row">
+						<label  for="sub" class="col-sm-2 col-form-label1">Subject:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="sub" placeholder="subject" name="sub" required>
+						</div>
+					</div>
+					
+					<!-- Message-->
+					<div class="form-group row">
+						<label  for="text" class="col-sm-2 col-form-label1">Message:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" rows="5" id="text" placeholder="name" name="text" required></textarea>
+						</div>
+					</div>
+					<!-- file upload-->
+					<div class="form-group row ">
+						<label for="file" class="col-sm-2 col-form-label1">Document:</label>
+						<div class="col-sm-10">
+							<input type="file" id="myFile" class="form-control-file" name="file">
+						</div>
+					</div>
+					
+					<!--button-->
+					<div class="form-group">
+						<div class="col-sm-12 ">
+							<input type="submit" class="btn btn-primary float-right" id="submit" name="submit" value="Submit">
+						</div>
+					</div>
+					
+				</form>
+			</div>
+			<!-- Modal footer -->
+			<!---<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close      </button>
+			</div>--->
+			
+			</div><!---modal-content close-->
+		</div><!--modal-dialog close-->
+	</div>
+</div><!-- container close-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+		$(document).ready(function(){
+			
+			$("#submit").click(function(){
+				var str="";
+				var a=$("#from").val();
+				var b=$("#to").val();
+				var c=$("#sub").val();
+				var d=$("#text").val();
+				var e=$("myFile").val();
+				
+				if(a=="" ||b==""||c==""||d==""||e=="")
+				{
+					str+="please fill field\r\n";
+				}
+				if(c.length >30)
+				{
+					str+="enter a less than 30 woeds";
+				}
+				if(d.length > 200)
+				
+				{
+					str+="limit exceded";
+				}
+				if(str!="")
+				{
+					alert(str);
+				
+				}
+				
+				
+				});
+								
+		});
+
+	</script>
+<script>
+	$(document).ready(function(){
+			var opt=[];
+			var opt2=[];
+			
+		$("#sel2").change(function(){
+			//$("#to").text('');
+			opt=[];
+			$.each($("#sel2 option:selected"),function(){
+				opt.push($(this).text());
+				$("#to").val(opt.toString().concat(opt2.toString()));
+				
+				});
+			});
+			$("#sel").change(function(){
+			//	$("#to").text('');
+				opt2=[];
+				$.each($("#sel option:selected"),function(){
+				opt2.push($(this).text());
+				$("#to").val(opt2.toString().concat(opt.toString()));
+				});
+			
+			});
+			
+		
+		
+		$("#submit").click(function(){
+			var opt=[];
+			var opt2=[];
+			$.each($("#sel2 option:selected"),function(){
+				opt.push($(this).val());
+			});
+			$.each($("#sel option:selected"),function(){
+				opt2.push($(this).val());
+			});
+				var temp=opt.join(",")+",";
+				var tempp=opt.join(",")
+				var temp2=opt2.join(",");
+				var temp3=temp.toString()+temp2.toString();
+ 				
+			if(temp2=='')
+			{
+				var temp4="1,";
+				var temp5=temp4+tempp.toString();
+				alert(temp5);
+				$("#to").val(temp5);
+
+			}
+			else
+			{
+				alert(temp3);
+				$("#to").val(temp3);
+			}
+		});
+	});
+	
+
+</script>
+

@@ -1,0 +1,41 @@
+
+{%if session['type']=='admin'%}
+<div class="d-flex flex-column">
+	<a href="{{url_for('acc_table')}}"><i class="fa fa-user fa-4x" ></i><br>ACCOUNTANT</a>
+	<a href="{{url_for('cli_table')}}"><i class="fa fa-user fa-4x" ></i><br>CLIENT</a>
+	<a href="" data-toggle="modal" data-target="#myModal" class="mes"><i class="fa fa-exchange-alt fa-10x" ></i><br> REQUEST</a>
+	<a href="{{url_for('logout')}}"><i class="fa fa-sign-out-alt fa-10x" ></i><br>Sign Out</a>
+</div>
+{%endif%}
+{%if session['type']=='client'%}
+
+	<div class="d-flex flex-column">
+		<a href="{{url_for('year_page')}}" ><i class="fa fa-file fa-10x" ></i><br>MY DOCUMENT</a>
+		<a href="#myModal" data-toggle="modal" data-target="#myModal" class="mes"> <i class="fa fa-exchange-alt fa-10x" ></i><br>REQUEST</a>
+		<a href="{{url_for('change_pass')}}"><i class="fa fa-key fa-10px"></i><br>Change Password</a>
+		<a href="{{url_for('logout')}}" ><i class="fa fa-sign-out-alt fa-10x" ></i><br>Sign Out</a>
+	</div>
+{%endif%}
+
+{%if session['type']=='accountant'%}
+<div class="d-flex flex-column">
+				<a href="{{url_for('myclients')}}" ><i class="fa fa-users fa-10x" ></i><br>MY CLIENTS</a>
+				<a href="#myModal" data-toggle="modal" data-target="#myModal" class="mes"> <i class="fa fa-exchange-alt fa-10x" ></i><br>REQUEST</a>
+				<a href="{{url_for('change_pass')}}"><i class="fa fa-key fa-10px"></i><br>Change Password</a>
+				<a href="{{url_for('logout')}}" ><i class="fa fa-sign-out-alt fa-10x" ></i><br>Sign Out</a>
+			</div>
+{%endif%}
+
+<!---request form-->
+	<div class="modal" id="myModal">
+		{% include 'common/RequestForm.html'%}
+	</div><!--modal close-->
+		
+	<script>
+	$(document).ready(function(){
+		$(".mes").click(function(){
+			$("#idModal").modal();
+		});
+		});
+	</script>
+<!---request form close-->

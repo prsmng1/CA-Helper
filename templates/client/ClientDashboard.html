@@ -1,0 +1,123 @@
+<!--<?php
+	session_start();
+	include "../common/error_success.php";
+	include "../database/connection.php";
+	if(!isset($_SESSION['type']))
+	{
+ 		header("location:".$siteurl."client/ClientLogin.php");
+	}
+
+	$sql="SELECT * from formcli where email='".$_SESSION['email']."'";
+	$res=$con->query($sql);
+	$row=$res->fetch_array();
+	$_SESSION['user']=$row['user_id'];
+	$name=$row['fname']." ".$row['lname'];
+	$com=$row['company'];
+	$gst=$row['gst'];
+	$mob=$row['phone'];
+?>-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	  
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!--============================own css============================-->
+			<link rel="stylesheet" href="static/css/Adminstyle.css">
+			<link rel="stylesheet" href="static/css/request.css">
+<!--===============================================================-->
+		
+	</head>
+<body>
+
+	
+	<div class="container-fluid" >
+		<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO CLIENT DASHBOARD
+			</p>
+		</div>
+			<!--content-->
+			<div class="row">
+				<!--left-->
+				<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+					{% include 'common/left.html' %}
+				</div>
+			
+				<!--middle-->
+				<div  class="col-md-7 col-lg-7 col-xs-12 col-7">
+					{%- for message in get_flashed_messages() %}
+					<div class="alert alert-success alert-dismissible">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+					<!--<?php err();
+					err1();
+					unset($_SESSION["success"]);
+					unset($_SESSION["error"]);?>-->
+					<div class="row">
+					<div class="col-md-5 ">
+						{% for client in client %}
+						<table class='table-sm ml-3' id='details'>
+						<tr>
+						<th> Name:</th>
+						<td>{{client.fname+client.lname}}</td>
+						</tr>
+						<tr>
+						<th> Company:</th>
+						<td>{{client.company}}</td>
+						</tr>
+						<tr>
+						<th> GST:</th>
+						<td>{{client.gst}}</td>
+						</tr>
+						<tr>
+						<th> Phone:</th>
+						<td>{{client.phone}}</td>
+						</tr>
+							{%endfor%}
+						</table>
+
+					</div>
+					<div class="col-md-5  ">
+						<i class='fa fa-file '></i>
+							<div class='number'>
+								{{ client_document}}
+							</div>
+						<h1>Total Documents</h1>
+					</div>
+				</div>
+
+				<div class="row">
+					
+					<div class="col-md-5 ">
+						<i class='fa fa-exchange-alt'></i>
+							<div class='number'>
+								{{ client_request}}
+							</div>
+								
+								<h1>Total Requests</h1>
+					</div>
+				</div>
+				</div>
+				<!--right-->
+				<div class="col-xs-12 col-3 col-request " style="overflow:auto;">
+					<div class="h-50 d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark  text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+					{% include 'common/requestdisplay.html' %}
+				</div>
+			</div>
+			</div><!-- row close-->
+	</div><!--container close-->
+							
+</body>
+</html>

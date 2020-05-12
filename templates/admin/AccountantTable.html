@@ -1,0 +1,194 @@
+<!--?php
+session_start();
+include "../database/connection.php";
+if(!isset($_SESSION['type'])){
+ header("location:".$siteurl."admin/AdminLogin.php");
+}
+
+if(isset($_GET['id']))
+{	$sql="SELECT email from formacc where id='".$_GET['id']."'";
+	$res=$con->query($sql);
+	$row=$res->fetch_array();
+	$temp=$row['email'];
+	//echo $temp;
+	//exit;
+	$sql1="DELETE from formacc where id='".$_GET['id']."'";
+	$temp5=$con->query($sql1);
+	if($temp5==true)
+	{
+		$sql2="DELETE from chart_acct where aid='".$_GET['id']."'";
+		$con->query($sql2);
+		$sql3="DELETE from logindb where email='".$temp."'";
+		$con->query($sql3);
+	}	
+
+echo "delete record";
+}
+-->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		</title>
+		<meta charset="utf-8">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static\css\fontawesome\css\all.min.css">
+		
+		<!--============================owncss========================-->
+		<link rel="stylesheet" href="static/css/Adminstyle.css">
+		<link rel="stylesheet" href="static/css/request.css">
+		<!--========================================================================-->
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<!-- data tale-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+		<!--<style >
+			#edit{
+				font-size:20px;
+				color:#104176; 
+				border:2px solid #104176;
+				padding: 3px;
+				
+			}
+			#delete{
+			font-size:20px; 
+			color: #ce0014!important;
+			border:2px solid;#ce0014!important;
+			padding: 3px;
+				
+			}
+		</style>-->
+	</head>
+<body style="background-color:#eff4f936!important;">
+	<div class="container-fluid" >
+		<!--heading-->
+		<div class="row">
+			<p>
+				WELCOME TO ACCOUNTANT 
+			</p>
+		</div>
+		<!--- content -->
+		<div class="row" >
+			<!--left bar-->
+			<div class="col-md-2 col-lg-2 col-xs-12 col-icon">
+				{%include 'common/left.html'%}
+			</div>
+				<!--middle area-->
+				<div class="col-md-7 col-lg-7 col-xs-12 col-7" style="overflow-x: hidden;">
+					<a href="{{url_for('form_acc')}}" class="btn d-flex justify-content-center" id="Addaccountant"> ADD ACCOUNTANT</a><br>
+		  			<!-- ////////////////////// notifications ////////////////////////////////////--->
+					{%- for message in get_flashed_messages() %}
+					<div class="alert alert-success alert-dismissible">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						 {{ message }}
+					</div>
+					  {%- endfor %}
+
+		  			<div class="table-responsive">
+
+						<table class='table-sm table-bordered' id='table_id'>
+						<thead>
+							<tr>
+								<th>Firstname</th>
+								<th> Lastname </th>
+								<th> Gender</th>
+								<th> Experience</th>
+								<th>Email</th>
+								<th>Mobile Number</th>
+								<th>clients</th>
+								<th> Action</th>
+								<!--<th> files</th>-->
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in record %}
+							<tr>
+								<td>{{row.fname}}</td>
+								<td>{{row.lname}}</td>
+
+								<td>{{row.gender}}</td>
+						       	<td>{{row.experience}}</td>
+						        <td>{{row.email}}</td>
+						        <td>{{row.phone}}</td>
+								<td>
+								{% for rows in client %}
+									  	{% if rows.aid == row.id|string %}
+											{% for name in client_name%}
+												{% if name.id|string == rows.cid%}
+													{{name.fname+name.lname }}
+												{%endif%}
+											{%endfor%}
+										{%endif%}
+								{% endfor%}
+								</td>
+
+						       <td>
+						        <a href ='view_acc/{{row.id}}'><i class='fa fa-edit fa-10x' id='edit'></i></a>
+						        <a href ='delete_acc/{{row.id}}'class="del" data-recordid="{{row.id}}" data-toggle="modal" data-target="#myModal1"><i class='fa fa-trash fa-10x' id='delete'></i></a>
+						        </td>
+						        <!--<td>
+						        <a href ='year.php?id=".$row['id']."'><i class='fa fa-file-upload' style='font-size: 40px; color: #1da9df;'></i></a>
+						         </td>-->
+
+							</tr>
+						     
+
+						{%endfor%}
+						   </tbody>
+						  </table>
+						<!-- //////////////////////// delete Modal popup /////////////////////////////////////-->
+				  <div class="modal fade" id="myModal1" role="dialog">
+					<div class="modal-dialog">
+
+					  <!-- Modal content-->
+					  <div class="modal-content" >
+						<div class="modal-header" style="background-color:#ea1212d9;">
+						  <h6 class="modal-title">Confirmation Delete</h6>
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+						</div>
+						<div class="modal-body">
+						  <h6>ARE YOU SURE TO WANT DELETE THIS RECORD??</h6>
+						</div>
+						<div class="modal-footer">
+						  <a href="" class="btn btn-primary float-left" id="yes" >Yes</a>
+						  <button type="button" class="btn btn-primary float-right" data-dismiss="modal">Cancel</button>
+						 </div>
+					  </div>
+
+					</div>
+				</div>
+					</div><!--Tableresponsive close-->
+				</div><!-- col-8 close -->
+					<!-- notifications-->
+					<div class="col-xs-12 col-3 col-request" style="overflow:scroll;">
+					<div class="d-flex flex-column">
+						<a href="{{url_for('view_message')}}" class="btn d-flex justify-content-center bg-dark text-light" style="margin: auto auto 0.5rem auto;"> View All Messages</a>
+					 {% include "common/requestdisplay.html" %}
+				</div>
+			</div>
+		</div><!-- row close-->
+</div><!--container close-->
+			
+				
+
+</body>
+</html>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+<script>
+	var a1;
+		$(document).ready(function(){
+	    	$('#table_id').DataTable();
+	   			$(".del").click(function()
+	   			{
+            		a1= $(this).attr("href");
+            		$("#yes").attr("href",a1);
+       			});
+		});
+	</script>
